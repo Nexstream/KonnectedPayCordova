@@ -1,0 +1,42 @@
+{
+  "name": "KonnectedPayCordova",
+  "version": "0.1.0",
+  "description": "A Cordova plugin to accept payments using the KonnectedPay payment gateway.",
+  "cordova": {
+    "id": "cordova-plugin-konnectedpay",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nexstream/KonnectedPayCordova.git"
+  },
+  "keywords": [
+    "payment",
+    "payment gateway",
+    "konnected",
+    "konnectedpay",
+    "konnected pay",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova-android",
+      "version": ">=4.0.0"
+    },
+    {
+      "name": "cordova-ios",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "TJ Woon <tjwoon@appxtream.com>",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/Nexstream/KonnectedPayCordova/issues"
+  },
+  "homepage": "https://github.com/Nexstream/KonnectedPayCordova#readme"
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-konnectedpay"
+    version="0.1.0">
+
+    <engines>
+        <engine name="cordova-android" version=">=4.0.0" />
+        <engine name="cordova-ios" version=">=3.0.0" />
+    </engines>
+
+    <name>KonnectedPay</name>
+    <author>TJ Woon (tjwoon@appxtream.com)</author>
+    <description>A Cordova plugin to accept payments using the KonnectedPay payment gateway.</description>
+    <license>Apache 2.0</license>
+    <keywords>payment,payment gateway,konnected,konnectedpay,konnected pay</keywords>
+
+    <js-module src="www/konnectedpay.js" name="KonnectedPay">
+        <clobbers target="konnectedpay" />
+    </js-module>
+
+    <platform name="android">
+
+    </platform>
+
+    <platform name="ios">
+
+    </platform>
+
+</plugin>
