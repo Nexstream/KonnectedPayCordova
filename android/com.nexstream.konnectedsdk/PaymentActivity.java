@@ -1,10 +1,10 @@
 package com.nexstream.konnectedsdk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PaymentActivity extends AppCompatActivity {
+public class PaymentActivity extends Activity {
     WebView myWebView;
 
     @Override
