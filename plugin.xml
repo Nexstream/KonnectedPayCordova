@@ -20,7 +20,20 @@
     </js-module>
 
     <platform name="android">
-
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="application">
+            <activity android:name="com.nexstream.konnectedsdk.PaymentActivity" />
+        </config-file>
+        <resource-file src="android/activity_payment.xml" target="res/layout/activity_payment.xml" />
+        <source-file src="android/com.nexstream.konnectedsdk/Payment.java" target-dir="src/com/nexstream/konnectedsdk" />
+        <source-file src="android/com.nexstream.konnectedsdk/PaymentActivity.java" target-dir="src/com/nexstream/konnectedsdk" />
+        <source-file src="android/com.nexstream.konnectedsdk/entity/Token.java" target-dir="src/com/nexstream/konnectedsdk/entity" />
+        <source-file src="android/com.nexstream.konnectedsdk/exception/KonnectedException.java" target-dir="src/com/nexstream/konnectedsdk/exception" />
+        <source-file src="android/com.nexstream.konnectedsdk/utils/HttpRequest.java" target-dir="src/com/nexstream/konnectedsdk/utils" />
+        <source-file src="android/my.com.nexstream.konnectedpay/KonnectedPayCordova.java" target-dir="src/my/com/nexstream/konnectedpay" />
     </platform>
 
     <platform name="ios">
