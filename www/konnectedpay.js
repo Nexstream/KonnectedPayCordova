@@ -88,7 +88,7 @@ KonnectedPay.prototype = {
     {
         var downloadTokens = function (url)
         {
-            var req = new XmlHttpRequest();
+            var req = new XMLHttpRequest();
             req.onreadystatechange = function () {
                 switch(req.readyState) {
                     case 4: // DONE
