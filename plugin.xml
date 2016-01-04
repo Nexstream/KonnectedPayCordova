@@ -20,6 +20,10 @@
     </js-module>
 
     <platform name="android">
+        <!-- KonnectedPay Android SDK dependencies -->
+        <framework src="com.android.support:appcompat-v7:23.1.1" />
+        <framework src="com.google.code.gson:gson:2.2.+" />
+        <!-- KonnectedPay Android SDK files -->
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,6 +37,7 @@
         <source-file src="android/com.nexstream.konnectedsdk/entity/Token.java" target-dir="src/com/nexstream/konnectedsdk/entity" />
         <source-file src="android/com.nexstream.konnectedsdk/exception/KonnectedException.java" target-dir="src/com/nexstream/konnectedsdk/exception" />
         <source-file src="android/com.nexstream.konnectedsdk/utils/HttpRequest.java" target-dir="src/com/nexstream/konnectedsdk/utils" />
+        <!-- KonnectedPayCordova plugin -->
         <source-file src="android/my.com.nexstream.konnectedpay/KonnectedPayCordova.java" target-dir="src/my/com/nexstream/konnectedpay" />
     </platform>
 
