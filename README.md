@@ -64,15 +64,17 @@ The success or failure callback will receive only one argument:
 ```javascript
 {
     amount: "1234.56", // May be undefined if status is not "S"
-    status: "status", // Will be "Incorrect usage" if the function was not called correctly
-    code: "{{.code}}", // May be undefined if status is not "S"
-    desc: "{{.desc}}",
+    status: "status", // "S" == successful payment. Any other value indicates
+        // failed payment. Will be "Incorrect usage" if the function was not
+        // called correctly.
+    code: "...", // May be undefined if status is not "S"
+    desc: "...",
     transId: "the transaction id specified in requestPayment()", // May be undefined if status is not "S"
 }
 ```
 
-Status == `"S"` indicates successful payment. Any other response indicates that
-the payment was **not** successful.
+Note: You can only have 1 payment at any time - requesting a payment while the
+previous payment is still in progress will result in failure.
 
 
 ### Retrieving Tokenised Payment Methods (credit cards)
