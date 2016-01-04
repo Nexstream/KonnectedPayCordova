@@ -60,6 +60,8 @@ public class KonnectedPayCordova extends CordovaPlugin {
                     params.getString("merchantId")
                 );
 
+                cordova.setActivityResultCallback(this);
+
                 try {
                     Payment.make(
                         cordova.getActivity(),
