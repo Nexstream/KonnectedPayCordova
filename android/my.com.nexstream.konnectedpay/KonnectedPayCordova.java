@@ -114,7 +114,9 @@ public class KonnectedPayCordova extends CordovaPlugin {
            paymentOngoing && paymentCallbackContext != null
         ) {
             try {
+                if(intent == null) throw new Exception("No response received");
                 Bundle extras = intent.getExtras();
+                if(extras == null) throw new Exception("No response received");
                 String status = extras.getString("status");
 
                 JSONObject resp = new JSONObject();
