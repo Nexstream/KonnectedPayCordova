@@ -106,3 +106,30 @@ konnectedpay.getTokens(
     }
 )
 ```
+
+
+Troubleshooting
+---------------
+
+### Unable to build on Android
+
+This plugin depends the AppCompat-v7 library, for which you must install a
+version suitable for your Android targetSdkVersion.
+
+By default, this plugin installs `com.android.support:appcompat-v7:22.+`, which
+is suitable for Cordova-Android v4.1.1 (targetSdkVersion=22). If you are using
+targetSdkVersion=23, then change your Android project to install
+`com.android.support:appcompat-v7:23.+` instead (similar workaround for other
+SDK versions.
+
+
+### Unable to load tokens - getTokens fails with `undefined` error
+
+Make sure you have configured the Content Security Policy on the page where you
+are calling `.getTokens()`. You must add this directive:
+
+`connect-src https://*.appxtream.com`
+
+e.g.
+
+`<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src https://*.appxtream.com">`
