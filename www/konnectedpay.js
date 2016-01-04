@@ -20,14 +20,64 @@
 var argscheck = require('cordova/argscheck'),
     exec      = require('cordova/exec');
 
-function KonnectedPay () {};
+
+// Config ----------------------------------------------------------------------
+
+var REQ_FIELDS_REQPAYMENT = [
+    "merchantId", "clientSecret", "amount", "transId", "currencyCode",
+    "fullName", "email", "userId"
+];
+
+
+// Helpers ---------------------------------------------------------------------
+
+var checkFields = function (reqFields, obj)
+{
+    reqFields.forEach(function (field) {
+        if(obj[field] === undefined) {
+            throw new Error("'"+field+"' is undefined");
+        }
+    })
+}
+
+
+// API implementation ----------------------------------------------------------
+
+var KonnectedPay = function () {};
 
 KonnectedPay.prototype = {
 
     requestPayment: function (params, success, error)
     {
-        argscheck.checkArgs('ofF', 'KonnectedPay.requestPayment', arguments);
-        exec(success, error, 'KonnectedPay', 'requestPayment', [params]);
+        try {
+            // Check parameters
+            argscheck.checkArgs("ofF", "KonnectedPay.requestPayment", arguments);
+            checkFields(REQ_FIELDS_REQPAYMENT, params)
+            if(typeof params.amount.toFixed !== "function") {
+                throw new Error("'amount' must be numeric");
+            }
+
+            // Call native SDKs
+            exec(success, error, "KonnectedPay", "requestPayment", [{
+                merchantId: ""+params.merchantId,
+                clientSecret: ""+params.clientSecret,
+                amount: params.amount.toFixed(2),
+                transId: ""+params.transId,
+                currencyCode: ""+params.currencyCode,
+                fullName: ""+params.fullName,
+                email: ""+params.email,
+                userId: ""+params.userId,
+                token: ""+params.token,
+            }]);
+        } catch (e) {
+            // Call error callback asynchronously if parameters are incorrect
+            setTimeout(function () {
+                error({
+                    status: "Incorrect usage",
+                    desc: e.message,
+                });
+            }, 0);
+        }
     },
 
 };
