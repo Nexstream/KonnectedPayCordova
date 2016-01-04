@@ -10,7 +10,7 @@ import com.nexstream.konnectedsdk.exception.KonnectedException;
 public class Payment {
     private static String CLIENT_SECRET = null;
     private static String MERCHANT_ID = null;
-    private static String HOST = "http://pay.appxtream.com";
+    private static String HOST = "https://pay.appxtream.com";
     public static int PAYMENT_RETURN = 8888;
 
     public enum CurrencyCode {
