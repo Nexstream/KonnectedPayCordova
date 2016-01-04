@@ -4,7 +4,9 @@ KonnectedPay Cordova Plugin
 Installation
 ------------
 
-`cordova plugin add my.com.nexstream.konnectedpay`
+Install this plugin using the Cordova command line tools:
+
+`cordova plugin add cordova-plugin-konnectedpay`
 
 
 Usage
