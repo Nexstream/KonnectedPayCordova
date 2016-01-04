@@ -97,6 +97,7 @@ KonnectedPay.prototype = {
                         } else {
                             try {
                                 var obj = JSON.parse(this.responseText);
+                                if(obj === null) obj = [];
                                 if(typeof obj != "object" || !(obj instanceof Array)) {
                                     throw new Error("Response should be an array")
                                 }
