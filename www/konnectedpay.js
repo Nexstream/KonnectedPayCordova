@@ -71,7 +71,7 @@ KonnectedPay.prototype = {
                 fullName: ""+params.fullName,
                 email: ""+params.email,
                 userId: ""+params.userId,
-                token: ""+params.token,
+                token: params.token === undefined ? undefined : ""+params.token,
             }]);
         } catch (e) {
             // Call error callback asynchronously if parameters are incorrect
