@@ -28,6 +28,10 @@ var REQ_FIELDS_REQPAYMENT = [
     "fullName", "email", "userId"
 ];
 
+var REQ_FIELDS_GETTOKENS = [
+    "merchantId", "clientSecret", "userId"
+];
+
 
 // Helpers ---------------------------------------------------------------------
 
@@ -77,6 +81,71 @@ KonnectedPay.prototype = {
                     desc: e.message,
                 });
             }, 0);
+        }
+    },
+
+    getTokens: function (params, success, error)
+    {
+        var downloadTokens = function (url)
+        {
+            var req = new XmlHttpRequest();
+            req.onreadystatechange = function () {
+                switch(req.readyState) {
+                    case 4: // DONE
+                        if(req.status < 200 || req.status >= 300) {
+                            error("Failed to retrieve tokens");
+                        } else {
+                            try {
+                                var obj = JSON.parse(this.responseText);
+                                if(typeof obj != "object" || !(obj instanceof Array)) {
+                                    throw new Error("Response should be an array")
+                                }
+                            } catch (e) {
+                                error((e && e.message) || "Invalid response from server");
+                                return;
+                            }
+
+                            success(
+                                obj.map(function (card) {
+                                    return {
+                                        token: card.token,
+                                        maskCard: card.maskCard,
+                                        maskCardType: card.maskCardType,
+                                    };
+                                })
+                            );
+                        }
+
+                        break;
+                }
+            });
+            req.open("GET", url);
+            req.send();
+        };
+
+        try {
+            // Check parameters
+            argscheck.checkArgs("ofF", "KonnectedPay.getTokenListUrl", arguments);
+            checkFields(REQ_FIELDS_GETTOKENS, params)
+
+            // Call native SDKs
+            exec(
+                downloadTokens,
+                function (err) {
+                    if(err && err.message !== undefined) error(err.message)
+                    else error()
+                },
+                "KonnectedPay",
+                "getTokenListUrl",
+                [{
+                    merchantId: ""+params.merchantId,
+                    clientSecret: ""+params.clientSecret,
+                    userId: ""+params.userId,
+                }]
+            );
+        } catch (e) {
+            // Call error callback asynchronously if parameters are incorrect
+            setTimeout(function () { error(e.message); }, 0);
         }
     },
 
