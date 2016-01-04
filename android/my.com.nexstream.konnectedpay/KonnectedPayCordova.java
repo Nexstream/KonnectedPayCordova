@@ -33,11 +33,6 @@ import org.json.JSONObject;
 
 public class KonnectedPayCordova extends CordovaPlugin {
 
-    // Config ------------------------------------------------------------------
-
-    private static int PAYMENT_ACT_REQUEST_CODE = 0x16CE3BFB;
-
-
     // State -------------------------------------------------------------------
 
     private boolean paymentOngoing = false;
@@ -113,7 +108,7 @@ public class KonnectedPayCordova extends CordovaPlugin {
     @Override
     public void onActivityResult (int requestCode, int resultCode, Intent intent)
     {
-        if(requestCode == PAYMENT_ACT_REQUEST_CODE &&
+        if(requestCode == Payment.PAYMENT_RETURN &&
            paymentOngoing && paymentCallbackContext != null
         ) {
             try {
