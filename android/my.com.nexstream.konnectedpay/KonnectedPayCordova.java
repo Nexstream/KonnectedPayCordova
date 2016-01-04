@@ -73,10 +73,10 @@ public class KonnectedPayCordova extends CordovaPlugin {
                         params.getString("userId"),
                         params.getString("transId"),
                         params.getString("amount"),
-                        params.getString("currencyCode"),
+                        stringToCurrencyCode(params.getString("currencyCode")),
                         params.optString("token", null)
                     );
-                } catch (KonnectedException e) {
+                } catch (Exception e) {
                     paymentOngoing = false;
                     paymentCallbackContext = null;
                     callbackContext.error(e.getMessage());
@@ -138,4 +138,37 @@ public class KonnectedPayCordova extends CordovaPlugin {
         }
     }
 
+
+    // Helpers -----------------------------------------------------------------
+
+    private Payment.CurrencyCode stringToCurrencyCode (String code)
+    throws Exception
+    {
+        if(code.equals("MYR")) return Payment.CurrencyCode.MYR;
+        else if(code.equals("USD")) return Payment.CurrencyCode.USD;
+        else if(code.equals("AED")) return Payment.CurrencyCode.AED;
+        else if(code.equals("AUD")) return Payment.CurrencyCode.AUD;
+        else if(code.equals("BND")) return Payment.CurrencyCode.BND;
+        else if(code.equals("CHF")) return Payment.CurrencyCode.CHF;
+        else if(code.equals("CNY")) return Payment.CurrencyCode.CNY;
+        else if(code.equals("EGP")) return Payment.CurrencyCode.EGP;
+        else if(code.equals("EUR")) return Payment.CurrencyCode.EUR;
+        else if(code.equals("GBP")) return Payment.CurrencyCode.GBP;
+        else if(code.equals("HKD")) return Payment.CurrencyCode.HKD;
+        else if(code.equals("IDR")) return Payment.CurrencyCode.IDR;
+        else if(code.equals("INR")) return Payment.CurrencyCode.INR;
+        else if(code.equals("JPY")) return Payment.CurrencyCode.JPY;
+        else if(code.equals("KRW")) return Payment.CurrencyCode.KRW;
+        else if(code.equals("LKR")) return Payment.CurrencyCode.LKR;
+        else if(code.equals("NZD")) return Payment.CurrencyCode.NZD;
+        else if(code.equals("PHP")) return Payment.CurrencyCode.PHP;
+        else if(code.equals("PKR")) return Payment.CurrencyCode.PKR;
+        else if(code.equals("SAR")) return Payment.CurrencyCode.SAR;
+        else if(code.equals("SEK")) return Payment.CurrencyCode.SEK;
+        else if(code.equals("SGD")) return Payment.CurrencyCode.SGD;
+        else if(code.equals("THB")) return Payment.CurrencyCode.THB;
+        else if(code.equals("TWD")) return Payment.CurrencyCode.TWD;
+        else if(code.equals("ZAR")) return Payment.CurrencyCode.ZAR;
+        else throw new Exception("Invalid currency code");
+    }
 }
