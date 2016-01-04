@@ -35,6 +35,7 @@
             <feature name="KonnectedPay">
                 <param name="android-package" value="my.com.nexstream.konnectedpay.KonnectedPayCordova"/>
             </feature>
+            <access origin="https://*.appxtream.com" />
         </config-file>
         <resource-file src="android/activity_payment.xml" target="res/layout/activity_payment.xml" />
         <source-file src="android/com.nexstream.konnectedsdk/Payment.java" target-dir="src/com/nexstream/konnectedsdk" />
