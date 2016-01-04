@@ -41,15 +41,7 @@ public class KonnectedPayCordova extends CordovaPlugin {
     // State -------------------------------------------------------------------
 
     private boolean paymentOngoing = false;
-    private boolean hasInit = false;
     private CallbackContext paymentCallbackContext;
-
-    // Payment results
-    private String amount;
-    private String status;
-    private String code;
-    private String desc;
-    private String tranId;
 
 
     // Plugin Entry Point ------------------------------------------------------
