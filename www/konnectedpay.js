@@ -118,7 +118,7 @@ KonnectedPay.prototype = {
 
                         break;
                 }
-            });
+            };
             req.open("GET", url);
             req.send();
         };
