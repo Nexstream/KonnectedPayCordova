@@ -21,7 +21,7 @@
 
     <platform name="android">
         <!-- KonnectedPay Android SDK dependencies -->
-        <framework src="com.android.support:appcompat-v7:23.1.1" />
+        <framework src="com.android.support:appcompat-v7:22.+" />
         <framework src="com.google.code.gson:gson:2.2.+" />
         <!-- KonnectedPay Android SDK files -->
         <config-file target="AndroidManifest.xml" parent="/*">
