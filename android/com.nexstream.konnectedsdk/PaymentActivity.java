@@ -2,6 +2,7 @@ package com.nexstream.konnectedsdk;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.JavascriptInterface;
@@ -18,9 +19,12 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment);
+        String package_name = getApplication().getPackageName();
+        Resources resources = getApplication().getResources();
 
-        myWebView = (WebView) findViewById(R.id.webview);
+        setContentView(resources.getIdentifier("activity_payment", "layout", package_name));
+
+        myWebView = (WebView) findViewById(resources.getIdentifier("webview", "id", package_name));
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
