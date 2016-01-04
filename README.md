@@ -109,6 +109,10 @@ konnectedpay.getTokens(
 )
 ```
 
+Make sure that you have configured the Content Security Policy on the page where
+you are calling this function. Add `connect-src https://*.appxtream.com` to the
+`Content-Security-Policy` META tag.
+
 
 Troubleshooting
 ---------------
