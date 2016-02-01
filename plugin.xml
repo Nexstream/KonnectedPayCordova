@@ -23,6 +23,12 @@
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         <framework src="com.nexstream.konnectedsdk:konnectedpaysdk:1.0.2" />
         <source-file src="android/my.com.nexstream.konnectedpay/KonnectedPayCordova.java" target-dir="src/my/com/nexstream/konnectedpay" />
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="KonnectedPay">
+                <param name="android-package" value="my.com.nexstream.konnectedpay.KonnectedPayCordova"/>
+            </feature>
+            <access origin="https://*.appxtream.com" />
+        </config-file>
     </platform>
 
     <platform name="ios">
