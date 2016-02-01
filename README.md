@@ -4,9 +4,57 @@ KonnectedPay Cordova Plugin
 Installation
 ------------
 
-Install this plugin using the Cordova command line tools:
+1. Install this plugin using the Cordova command line tools:
 
-`cordova plugin add cordova-plugin-konnectedpay`
+    `cordova plugin add cordova-plugin-konnectedpay`
+
+2. On any page where you want to use the `.getTokens()` method, configure the
+    Content Security Policy by adding the directive
+    `connect-src https://*.appxtream.com` to the `Content-Security-Policy` META
+    tag, e.g.
+
+    ```html
+    <meta
+        http-equiv="Content-Security-Policy"
+        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src https://*.appxtream.com"
+    />
+    ```
+
+
+### Android
+
+On Android, a few more steps are required:
+
+1. Ensure that your application uses an `android:theme` from AppCompat. If you
+    do not already have such a theme:
+
+    1. Create a file `platforms/android/res/values/styles.xml`.
+    2. Insert these contents into the new file (sample):
+
+        ```xml
+        <resources>
+            <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+                <!-- Customize your theme here. -->
+                <item name="colorPrimary">#000000</item>
+                <item name="colorPrimaryDark">#800000</item>
+                <item name="colorAccent">#FF3030</item>
+            </style>
+        </resources>
+        ```
+
+    3. Edit the `<application>` tag in `AndroidManifest.xml` and add the
+        following attribute: `android:theme="@style/AppTheme"`. For example:
+
+        ```xml
+        <application
+            android:hardwareAccelerated="true"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+            ...
+        </application>
+        ```
 
 
 Usage
