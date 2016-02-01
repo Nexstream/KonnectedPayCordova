@@ -53,6 +53,23 @@ KonnectedPay.prototype = {
 
     requestPayment: function (params, success, error)
     {
+        var errCb = function (resp)
+        {
+            if(typeof resp == "string") {
+                error({
+                    status: "Error",
+                    desc: resp,
+                })
+            } else if(resp === 1) {
+                error({
+                    status: "Cancelled",
+                    desc: "User cancelled",
+                })
+            } else {
+                error(resp)
+            }
+        }
+
         try {
             // Check parameters
             argscheck.checkArgs("ofF", "KonnectedPay.requestPayment", arguments);
@@ -62,7 +79,7 @@ KonnectedPay.prototype = {
             }
 
             // Call native SDKs
-            exec(success, error, "KonnectedPay", "requestPayment", [{
+            exec(success, errCb, "KonnectedPay", "requestPayment", [{
                 merchantId: ""+params.merchantId,
                 clientSecret: ""+params.clientSecret,
                 amount: params.amount.toFixed(2),

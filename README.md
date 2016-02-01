@@ -115,12 +115,12 @@ The success or failure callback will receive only one argument:
 
 ```javascript
 {
-    amount: "1234.56", // May be undefined if status is not "S"
     status: "status", // "S" == successful payment. Any other value indicates
         // failed payment. Will be "Incorrect usage" if the function was not
         // called correctly.
-    code: "...", // May be undefined if status is not "S"
     desc: "...",
+    code: "...", // May be undefined if status is not "S"
+    amount: "1234.56", // May be undefined if status is not "S"
     transId: "the transaction id specified in requestPayment()", // May be undefined if status is not "S"
 }
 ```

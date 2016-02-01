@@ -33,6 +33,12 @@ import org.json.JSONObject;
 
 public class KonnectedPayCordova extends CordovaPlugin {
 
+    private class NoResponseException extends Exception {};
+
+    // Config ------------------------------------------------------------------
+
+    private static int ERROR_NO_RESPONSE_RECEIVED;
+
     // State -------------------------------------------------------------------
 
     private boolean paymentOngoing = false;
@@ -115,9 +121,9 @@ public class KonnectedPayCordova extends CordovaPlugin {
            paymentOngoing && paymentCallbackContext != null
         ) {
             try {
-                if(intent == null) throw new Exception("No response received");
+                if(intent == null) throw new NoResponseException();
                 Bundle extras = intent.getExtras();
-                if(extras == null) throw new Exception("No response received");
+                if(extras == null) throw new NoResponseException();
                 String status = extras.getString("status");
 
                 JSONObject resp = new JSONObject();
@@ -129,6 +135,8 @@ public class KonnectedPayCordova extends CordovaPlugin {
 
                 if(status.equals("S")) paymentCallbackContext.success(resp);
                 else paymentCallbackContext.error(resp);
+            } catch (NoResponseException e) {
+                paymentCallbackContext.error(ERROR_NO_RESPONSE_RECEIVED);
             } catch (Exception e) {
                 paymentCallbackContext.error("Unexpected failure: "+e.getMessage());
             } finally {
