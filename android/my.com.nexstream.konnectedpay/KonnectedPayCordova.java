@@ -71,7 +71,8 @@ public class KonnectedPayCordova extends CordovaPlugin {
                         params.getString("transId"),
                         params.getString("amount"),
                         stringToCurrencyCode(params.getString("currencyCode")),
-                        params.optString("token", null)
+                        params.optString("token", null),
+                        params.optBoolean("rememberCard", true)
                     );
                 } catch (Exception e) {
                     paymentOngoing = false;

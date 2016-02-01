@@ -1,0 +1,6 @@
+cdvMinSdkVersion = 17
+cdvCompileSdkVersion = 23
+
+repositories {
+    jcenter()
+}

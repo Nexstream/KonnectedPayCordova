@@ -19,14 +19,16 @@ Requesting payment with payment form page:
 ```javascript
 konnectedpay.requestPayment(
     {
-        merchantId: "your konnectedpay merchant id",     // Get from your KonnectedPay account.
-        clientSecret: "your konnectedpay client secret", // Get from your KonnectedPay account.
+        merchantId: "your konnectedpay merchant id",     // From your KonnectedPay account.
+        clientSecret: "your konnectedpay client secret", // From your KonnectedPay account.
         amount: 1234.56,
         transId: "your unique transaction id",
         currencyCode: "MYR",
         fullName: "payer's full name",
         email: "payer's email address",
         userId: "your internal user ID",
+        rememberCard: true, // OPTIONAL. Set to false if you do NOT want to
+            // remember the user's card (see Retrieving Tokenised Payment Method).
     },
     function (results) {
         // Successful Payment
@@ -42,8 +44,8 @@ Requesting payment with existing token (credit card) - skips payment page:
 ```javascript
 konnectedpay.requestPayment(
     {
-        merchantId: "your konnectedpay merchant id",     // Get from your KonnectedPay account.
-        clientSecret: "your konnectedpay client secret", // Get from your KonnectedPay account.
+        merchantId: "your konnectedpay merchant id",     // From your KonnectedPay account.
+        clientSecret: "your konnectedpay client secret", // From your KonnectedPay account.
         amount: 1234.56,
         transId: "your unique transaction id",
         currencyCode: "MYR",
@@ -116,18 +118,6 @@ you are calling this function. Add `connect-src https://*.appxtream.com` to the
 
 Troubleshooting
 ---------------
-
-### Unable to build on Android
-
-This plugin depends the AppCompat-v7 library, for which you must install a
-version suitable for your Android targetSdkVersion.
-
-By default, this plugin installs `com.android.support:appcompat-v7:22.+`, which
-is suitable for Cordova-Android v4.1.1 (targetSdkVersion=22). If you are using
-targetSdkVersion=23, then change your Android project to install
-`com.android.support:appcompat-v7:23.+` instead (similar workaround for other
-SDK versions.
-
 
 ### Unable to load tokens - getTokens fails with `undefined` error
 
