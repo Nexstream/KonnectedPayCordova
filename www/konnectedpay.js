@@ -78,8 +78,7 @@ KonnectedPay.prototype = {
                 throw new Error("'amount' must be numeric");
             }
 
-            // Call native SDKs
-            exec(success, errCb, "KonnectedPay", "requestPayment", [{
+            var nparams = {
                 merchantId: ""+params.merchantId,
                 clientSecret: ""+params.clientSecret,
                 amount: params.amount.toFixed(2),
@@ -89,7 +88,14 @@ KonnectedPay.prototype = {
                 email: ""+params.email,
                 userId: ""+params.userId,
                 token: params.token === undefined ? undefined : ""+params.token,
-            }]);
+            }
+
+            if(params.rememberCard !== undefined) {
+                nparams.rememberCard = params.rememberCard
+            }
+
+            // Call native SDKs
+            exec(success, errCb, "KonnectedPay", "requestPayment", [nparams]);
         } catch (e) {
             // Call error callback asynchronously if parameters are incorrect
             setTimeout(function () {
