@@ -68,6 +68,13 @@ public class KonnectedPayCordova extends CordovaPlugin {
 
                 cordova.setActivityResultCallback(this);
 
+                Boolean rememberCard;
+                if(params.optString("rememberCard", "0").equals("1")) {
+                    rememberCard = true;
+                } else {
+                    rememberCard = false;
+                }
+
                 try {
                     Payment.make(
                         cordova.getActivity(),
@@ -78,7 +85,7 @@ public class KonnectedPayCordova extends CordovaPlugin {
                         params.getString("amount"),
                         stringToCurrencyCode(params.getString("currencyCode")),
                         params.optString("token", null),
-                        params.optBoolean("rememberCard", true)
+                        rememberCard
                     );
                 } catch (Exception e) {
                     paymentOngoing = false;
