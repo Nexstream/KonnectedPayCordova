@@ -32,7 +32,16 @@
     </platform>
 
     <platform name="ios">
-
+        <header-file src="ios/KonnectedPay.h" />
+        <source-file src="ios/KonnectedPay.m" />
+        <header-file src="ios/KonnectedPayCordova.h" />
+        <source-file src="ios/KonnectedPayCordova.m" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="KonnectedPay">
+                <param name="ios-package" value="KonnectedPayCordova"/>
+            </feature>
+            <access origin="https://*.appxtream.com" />
+        </config-file>
     </platform>
 
 </plugin>

@@ -167,7 +167,11 @@ you are calling this function. Add `connect-src https://*.appxtream.com` to the
 Troubleshooting
 ---------------
 
-### Unable to load tokens - getTokens fails with `undefined` error
+### Unable to load tokens
+
+Symptoms:
+- Android: `getTokens` fails with `undefined` error
+- iOS: `getTokens` never calls the success or error callbacks
 
 Make sure you have configured the Content Security Policy on the page where you
 are calling `.getTokens()`. You must add this directive:
