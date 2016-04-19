@@ -9,6 +9,7 @@
 @interface KonnectedPayCordova ()
 
 @property (nonatomic, retain) NSDictionary<NSString*,NSNumber*> *codes;
+@property (atomic, retain) KonnectedPay *sdk;
 
 @end
 
@@ -100,11 +101,13 @@
 
     // Make payment
 
-    KonnectedPay *payment = [[KonnectedPay alloc] initWithMerchantID:merchantId clientSecret:clientSecret];
-    [payment make:self.viewController
+    self.sdk = [[KonnectedPay alloc] initWithMerchantID:merchantId clientSecret:clientSecret];
+    [self.sdk make:self.viewController
              fullName:fullName email:email userID:userId tranID:transId
              amount:amount currencyCode:currency token:token
              completion:^void(bool isSuccess, NSDictionary* paymentResult){
+                self.sdk = nil;
+
                 CDVCommandStatus status;
                 if(isSuccess) status = CDVCommandStatus_OK;
                 else status = CDVCommandStatus_ERROR;
@@ -123,8 +126,9 @@
     NSString *clientSecret  = [params objectForKey:@"clientSecret"];
     NSString *userId        = [params objectForKey:@"userId"];
 
-    KonnectedPay *payment = [[KonnectedPay alloc] initWithMerchantID:merchantId clientSecret:clientSecret];
-    NSString *tokenListUrl = [payment getTokenListUrlWithUserID:userId];
+    self.sdk = [[KonnectedPay alloc] initWithMerchantID:merchantId clientSecret:clientSecret];
+    NSString *tokenListUrl = [self.sdk getTokenListUrlWithUserID:userId];
+    self.sdk = nil;
 
     [self.commandDelegate
         sendPluginResult: [CDVPluginResult
