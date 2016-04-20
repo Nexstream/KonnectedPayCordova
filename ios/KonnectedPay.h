@@ -22,6 +22,6 @@ typedef enum CurrencyCode : NSUInteger {
 @property NSString* navBarTitle;
 -(KonnectedPay*)initWithMerchantID:(NSString*)Id clientSecret:(NSString*)key;
 -(NSString*)getTokenListUrlWithUserID:(NSString*)userID;
--(void)make:(id)delegate fullName:(NSString*)name email:(NSString*)email userID:(NSString*)userID tranID:(NSString*)tranId amount:(NSString*)amount currencyCode:(NSInteger)curCode token:(NSString*)token completion:(void(^)(bool isSuccess , NSDictionary* paymentResult))block;
+-(void)make:(id)delegate fullName:(NSString*)name email:(NSString*)email userID:(NSString*)userID tranID:(NSString*)tranId amount:(NSString*)amount currencyCode:(NSInteger)curCode token:(NSString*)token rememberCard:(BOOL)rememberCard completion:(void(^)(bool isSuccess , NSDictionary* paymentResult))block;
 
 @end

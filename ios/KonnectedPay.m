@@ -30,10 +30,15 @@
     
 }
 
-
+//- (NSString *)encodeForString:(NSString *)str {
+//    NSString *encodedUString =
+//    (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
+//                                                                          NULL, (CFStringRef)str, NULL, (CFStringRef) @":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~` ",
+//                                                                          kCFStringEncodingUTF8));
+//    return encodedUString;
+//}
 -(NSString*)getTokenListUrlWithUserID:(NSString*)userID{
     [self isValid];
-    NSLog(@"%@",[NSString stringWithFormat:@"%@/payment/token/%@?clientSecret=%@",kHost,userID,self.clientSecret]);
     return [NSString stringWithFormat:@"%@/payment/token/%@?clientSecret=%@",kHost,userID,self.clientSecret];
 }
 
@@ -122,7 +127,7 @@
     return result;
 }
 
--(void)make:(id)delegate fullName:(NSString*)name email:(NSString*)email userID:(NSString*)userID tranID:(NSString*)tranId amount:(NSString*)amount currencyCode:(NSInteger)curCode token:(NSString*)token completion:(void(^)(bool isSuccess , NSDictionary* paymentResult))block{
+-(void)make:(id)delegate fullName:(NSString*)name email:(NSString*)email userID:(NSString*)userID tranID:(NSString*)tranId amount:(NSString*)amount currencyCode:(NSInteger)curCode token:(NSString*)token rememberCard:(BOOL)rememberCard completion:(void(^)(bool isSuccess , NSDictionary* paymentResult))block{
     
     [self isValid];
     viewDelegate=delegate;
@@ -135,8 +140,13 @@
     NSAssert(amount !=nil, @"Please make sure all mandatory param cannot be null -- amount cannnot be nil");
     
     NSString* curCodeStr = [self convertToString:curCode];
+    NSString* isRememberCard = @"true";
+    if(rememberCard == NO){
+        isRememberCard = @"false";
+    }
     
-    NSMutableString* url = [NSMutableString stringWithFormat:@"%@/payment?merchantId=%@&tranId=%@&amount=%@&currencyCode=%@&device=%@&os=iOS-%@&fullname=%@&email=%@&userId=%@",kHost,self.merchantID,tranId,amount,curCodeStr,[[UIDevice currentDevice] model],[[UIDevice currentDevice] systemVersion],name,email,userID];
+    NSMutableString* url = [NSMutableString stringWithFormat:@"%@/payment?merchantId=%@&tranId=%@&amount=%@&currencyCode=%@&device=%@&os=iOS-%@&fullname=%@&email=%@&userId=%@&rememberCard=%@",kHost,self.merchantID,tranId,amount,curCodeStr,[[UIDevice currentDevice] model],[[UIDevice currentDevice] systemVersion],name,email,userID,isRememberCard];
+    
     if (token != nil) {
         [url appendFormat:@"&token=%@",token];
     }
@@ -146,41 +156,44 @@
 
 -(void)showPaymentViewController:(NSString*)url{
     
-    paymentController = [[UIViewController alloc]init];
-    paymentController.view.frame = [UIScreen mainScreen].bounds;
     
-    UINavigationBar *navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, paymentController.view.frame.size.width, 64)];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        paymentController = [[UIViewController alloc]init];
+        paymentController.view.frame = [UIScreen mainScreen].bounds;
+        UINavigationBar *navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, paymentController.view.frame.size.width, 64)];
         if(self.navBarColor == nil) {
-        navBar.barTintColor = [UIColor whiteColor];
-    }else{
-        navBar.barTintColor = self.navBarColor;
-    }
-    navBar.translucent = NO;
-    UINavigationItem *navItem = [[UINavigationItem alloc] init];
-    UIBarButtonItem* cancelBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView)];
-    navItem.leftBarButtonItem = cancelBtn;
-    navBar.items = @[ navItem ];
-    
-    if(self.navBarTitle!=nil){
-        navItem.title = self.navBarTitle;
-    }
-
-    [paymentController.view addSubview:navBar];
-    
-    UIWebView* webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, paymentController.view.frame.size.width, paymentController.view.frame.size.height-64)];
-    webView.delegate = self;
-    NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: url]];
-    [webView loadRequest:urlRequest];
-    NSLog(@"%@",url);
-    [paymentController.view addSubview:webView];
-    [viewDelegate presentViewController:paymentController animated:YES completion:nil];
+            navBar.barTintColor = [UIColor whiteColor];
+        }else{
+            navBar.barTintColor = self.navBarColor;
+        }
+        navBar.translucent = NO;
+        UINavigationItem *navItem = [[UINavigationItem alloc] init];
+        UIBarButtonItem* cancelBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissView)];
+        navItem.leftBarButtonItem = cancelBtn;
+        navBar.items = @[ navItem ];
+        
+        if(self.navBarTitle!=nil){
+            navItem.title = self.navBarTitle;
+        }
+        
+        [paymentController.view addSubview:navBar];
+        
+        UIWebView* webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, paymentController.view.frame.size.width, paymentController.view.frame.size.height-64)];
+        webView.delegate = self;
+        NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: [url stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
+        [webView loadRequest:urlRequest];
+        [paymentController.view addSubview:webView];
+        [viewDelegate presentViewController:paymentController animated:YES completion:nil];
+    });
     
 }
 #pragma mark - WebViewDelegate
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSURL *url = [request URL];
     NSString *urlStr = url.absoluteString;
+    
     if ([webView respondsToSelector:@selector(scrollView)])
     {
         CGSize contentSize = webView.scrollView.contentSize;
@@ -213,16 +226,16 @@
         
         //parse JSON input in the URL
         NSDictionary *paymentResult = [NSJSONSerialization
-                                  JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
-                                  options:kNilOptions
-                                  error:&jsonError];
+                                       JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
+                                       options:kNilOptions
+                                       error:&jsonError];
         
         //check if there was error in parsing JSON input
         if (jsonError != nil)
         {
             NSLog(@"Error parsing JSON for the url %@",url);
             [paymentController dismissViewControllerAnimated:YES completion:^void{
-                 completionHandler(NO,paymentResult);
+                completionHandler(NO,paymentResult);
             }];
             return NO;
         }
@@ -236,7 +249,7 @@
                 completionHandler(NO,paymentResult);
             }];
         }
-      
+        
         //Do not load this url in the WebView
         return NO;
         
