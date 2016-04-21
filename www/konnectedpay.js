@@ -92,6 +92,8 @@ KonnectedPay.prototype = {
 
             if(params.rememberCard !== undefined) {
                 nparams.rememberCard = params.rememberCard ? "1" : "0"
+            } else {
+                nparams.rememberCard = "1"
             }
 
             // Call native SDKs

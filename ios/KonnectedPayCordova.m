@@ -105,6 +105,7 @@
     [self.sdk make:self.viewController
              fullName:fullName email:email userID:userId tranID:transId
              amount:amount currencyCode:currency token:token
+             rememberCard:rememberCard
              completion:^void(bool isSuccess, NSDictionary* paymentResult){
                 self.sdk = nil;
 
