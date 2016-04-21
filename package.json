@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-konnectedpay",
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-alpha2",
   "description": "A Cordova plugin to accept payments using the KonnectedPay payment gateway.",
   "cordova": {
     "id": "cordova-plugin-konnectedpay",
