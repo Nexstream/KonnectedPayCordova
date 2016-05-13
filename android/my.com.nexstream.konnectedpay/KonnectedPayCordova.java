@@ -138,7 +138,7 @@ public class KonnectedPayCordova extends CordovaPlugin {
                 resp.put("status", status);
                 resp.put("code", extras.getString("code"));
                 resp.put("desc", extras.getString("desc"));
-                resp.put("transId", extras.getString("tranId"));
+                resp.put("tranId", extras.getString("tranId"));
 
                 if(status.equals("S")) paymentCallbackContext.success(resp);
                 else paymentCallbackContext.error(resp);

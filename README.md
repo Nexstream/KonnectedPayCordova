@@ -121,7 +121,8 @@ The success or failure callback will receive only one argument:
     desc: "...",
     code: "...", // May be undefined if status is not "S"
     amount: "1234.56", // May be undefined if status is not "S"
-    transId: "the transaction id specified in requestPayment()", // May be undefined if status is not "S"
+    tranId: "the transaction id specified in requestPayment()", // May be
+        // undefined if status is not "S"
 }
 ```
 
