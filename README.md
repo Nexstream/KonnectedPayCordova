@@ -21,6 +21,7 @@ Installation
     ```
 
 
+<a name="androidSetup"></a>
 ### Android
 
 On Android, a few more steps are required:
@@ -192,3 +193,15 @@ are calling `.getTokens()`. You must add this directive:
 e.g.
 
 `<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src https://*.appxtream.com">`
+
+### Android app crashes when calling konnectedpay.requestPayment(...)
+
+If your app crashes immediately after requesting payment, and if you find a line
+similar to the following in your ADB logs:
+
+```
+06-06 16:37:18.536  5132  5132 E AndroidRuntime: java.lang.RuntimeException: Unable to start activity ComponentInfo{io.cordova.hellocordova/com.nexstream.konnectedsdk.PaymentActivity}: java.lang.IllegalStateException: You need to use a Theme.AppCompat theme (or descendant) with this activity.
+```
+
+Please complete your Android app setup by following the [Android additional setup
+instructions](#androidSetup).
