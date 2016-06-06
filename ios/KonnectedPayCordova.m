@@ -4,6 +4,12 @@
 // FIXME: This class depends on CurrencyCode type == NSUInteger...
 
 //------------------------------------------------------------------------------
+#pragma mark - Config
+
+#define ERROR_NO_RESPONSE_RECEIVED -9999
+
+
+//------------------------------------------------------------------------------
 #pragma mark - Private properties
 
 @interface KonnectedPayCordova ()
@@ -112,11 +118,22 @@
                 CDVCommandStatus status;
                 if(isSuccess) status = CDVCommandStatus_OK;
                 else status = CDVCommandStatus_ERROR;
-                [self.commandDelegate
-                    sendPluginResult: [CDVPluginResult
-                                       resultWithStatus: status
-                                       messageAsDictionary: paymentResult]
-                    callbackId: [command callbackId]];
+
+                if(status == CDVCommandStatus_ERROR && paymentResult == nil) {
+                    // Cancelled payment
+                    [self.commandDelegate
+                        sendPluginResult: [CDVPluginResult
+                                           resultWithStatus: status
+                                           messageAsInt: ERROR_NO_RESPONSE_RECEIVED]
+                        callbackId: [command callbackId]];
+                } else {
+                    // Successful or failed payments
+                    [self.commandDelegate
+                        sendPluginResult: [CDVPluginResult
+                                           resultWithStatus: status
+                                           messageAsDictionary: paymentResult]
+                        callbackId: [command callbackId]];
+                }
     }];
 }
 
