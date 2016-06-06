@@ -137,7 +137,13 @@ Cancelled payment:
 }
 ```
 
-Note: You can only have 1 payment at any time - requesting a payment while the
+**WARNING:** The payment can still be processing/successful/failed even if this
+plugin returns Cancelled status, as the user may have exited the payment screen
+after submitting all the online forms... We advise you not to abort any
+transactions after receiving this status - instead, you should rely on
+KonnectedPay's Backend POST feature.
+
+*Note:* You can only have 1 payment at any time - requesting a payment while the
 previous payment is still in progress will result in failure.
 
 
