@@ -106,12 +106,13 @@ konnectedpay.requestPayment(
         // Successful Payment
     },
     function (results) {
-        // Unsuccessful Payment
+        // Unsuccessful or Cancelled Payment
     }
 )
 ```
 
-The success or failure callback will receive only one argument:
+The success or failure callback will receive only one argument.
+Successful/failed payment:
 
 ```javascript
 {
@@ -123,6 +124,15 @@ The success or failure callback will receive only one argument:
     amount: "1234.56", // May be undefined if status is not "S"
     tranId: "the transaction id specified in requestPayment()", // May be
         // undefined if status is not "S"
+}
+```
+
+Cancelled payment:
+
+```javascript
+{
+    status: "Cancelled",
+    desc: "User cancelled",
 }
 ```
 

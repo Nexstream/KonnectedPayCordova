@@ -60,7 +60,7 @@ KonnectedPay.prototype = {
                     status: "Error",
                     desc: resp,
                 })
-            } else if(resp === 1) {
+            } else if(resp === -9999) {
                 error({
                     status: "Cancelled",
                     desc: "User cancelled",

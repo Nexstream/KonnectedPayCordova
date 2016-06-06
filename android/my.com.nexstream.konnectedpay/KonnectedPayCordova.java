@@ -37,7 +37,7 @@ public class KonnectedPayCordova extends CordovaPlugin {
 
     // Config ------------------------------------------------------------------
 
-    private static int ERROR_NO_RESPONSE_RECEIVED;
+    private static int ERROR_NO_RESPONSE_RECEIVED = -9999;
 
     // State -------------------------------------------------------------------
 
