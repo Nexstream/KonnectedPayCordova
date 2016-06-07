@@ -260,7 +260,9 @@
 }
 
 -(void)dismissView{
-    [paymentController dismissViewControllerAnimated:YES completion:nil];
+    [paymentController dismissViewControllerAnimated:YES completion:^void{
+        completionHandler(NO,nil);
+    }];
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
