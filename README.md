@@ -165,8 +165,8 @@ konnectedpay.getTokens(
         // results == [
         //     {
         //         token: "opaque string to pass into konnectedpay.requestPayment()",
-        //         maskCard: "411111******1111",
-        //         maskCardType: "e.g. VISA, etc",
+        //         maskCard: "411111xxxxxx1111",
+        //         maskCardType: "e.g. V, M, A, etc",
         //     },
         //     ...
         // ]
