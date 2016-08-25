@@ -8,8 +8,8 @@ Installation
 
     `cordova plugin add cordova-plugin-konnectedpay`
 
-2. On any page where you want to use the `.getTokens()` method, configure the
-    Content Security Policy by adding the directive
+2. On any page where you want to use the `.getTokens()` or `.deleteToken()`
+    methods, configure the Content Security Policy by adding the directive
     `connect-src https://*.appxtream.com` to the `Content-Security-Policy` META
     tag, e.g.
 
@@ -180,6 +180,26 @@ konnectedpay.getTokens(
 Make sure that you have configured the Content Security Policy on the page where
 you are calling this function. Add `connect-src https://*.appxtream.com` to the
 `Content-Security-Policy` META tag.
+
+
+### Deleting Saved Token
+
+```javascript
+konnectedpay.deleteToken(
+    {
+        clientSecret: "your konnectedpay client secret", // Get from your KonnectedPay account.
+        userId: "your internal user ID - used with konnectedpay.getTokens() method",
+        token: "the token to be deleted - as returned by .getTokens()"
+    },
+    function () {
+        // Token successfully deleted
+    },
+    function (errMsg) {
+        // Token NOT successfully deleted
+    }
+)
+```
+
 
 
 Troubleshooting

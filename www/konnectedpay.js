@@ -23,6 +23,8 @@ var argscheck = require('cordova/argscheck'),
 
 // Config ----------------------------------------------------------------------
 
+var URL_KONNECTEDPAY = "https://pay.appxtream.com";
+
 var REQ_FIELDS_REQPAYMENT = [
     "merchantId", "clientSecret", "amount", "transId", "currencyCode",
     "fullName", "email", "userId"
@@ -30,6 +32,10 @@ var REQ_FIELDS_REQPAYMENT = [
 
 var REQ_FIELDS_GETTOKENS = [
     "merchantId", "clientSecret", "userId"
+];
+
+var REQ_FIELDS_DELETETOKEN = [
+    "clientSecret", "userId", "token"
 ];
 
 
@@ -169,6 +175,47 @@ KonnectedPay.prototype = {
                     userId: ""+params.userId,
                 }]
             );
+        } catch (e) {
+            // Call error callback asynchronously if parameters are incorrect
+            setTimeout(function () { error(e.message); }, 0);
+        }
+    },
+
+    deleteToken: function (params, success, error)
+    {
+        var deleteToken = function (url)
+        {
+            var req = new XMLHttpRequest();
+            req.onreadystatechange = function () {
+                switch(req.readyState) {
+                    case 4: // DONE
+                        if(req.status >= 200 && req.status < 300) {
+                            success();
+                        } else {
+                            var obj;
+                            try { obj = JSON.parse(this.responseText) }
+                            catch (e) {}
+                            error((obj && obj.error) || "Failed to delete token");
+                        }
+
+                        break;
+                }
+            };
+            req.open("DELETE", url);
+            req.send();
+        };
+
+        try {
+            // Check parameters
+            argscheck.checkArgs("ofF", "KonnectedPay.deleteToken", arguments);
+            checkFields(REQ_FIELDS_DELETETOKEN, params);
+
+            var url = URL_KONNECTEDPAY
+                    + "/payment/token/" + encodeURIComponent(params.userId)
+                    + "/" + encodeURIComponent(params.token)
+                    + "?clientSecret=" + encodeURIComponent(params.clientSecret);
+
+            deleteToken(url);
         } catch (e) {
             // Call error callback asynchronously if parameters are incorrect
             setTimeout(function () { error(e.message); }, 0);
